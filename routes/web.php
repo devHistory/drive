@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::any('/files/preview', 'FilesController@preview');
+Route::any('/webdav{argv}', 'WebDavController@index')->where('argv', '[\s\S]*');
