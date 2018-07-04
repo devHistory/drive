@@ -26,7 +26,7 @@ class WebDavController extends Controller
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // 基本设置
-        $dataHome = env('DATA_HOME', storage_path('app'));
+        $dataHome = env('DATA_HOME', storage_path('app/data'));
         $rootDirectory = new DAV\FS\Directory($dataHome);
         $server = new DAV\Server($rootDirectory);
         $server->setBaseUri('/webdav');

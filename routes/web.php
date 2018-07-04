@@ -14,5 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::any('/console', 'Console\IndexController@index');
 Route::any('/files/preview', 'FilesController@preview');
 Route::any('/webdav{argv}', 'WebDavController@index')->where('argv', '[\s\S]*');
+Route::resource('/api/files', 'Api\FilesController')->except(['create', 'edit']);
