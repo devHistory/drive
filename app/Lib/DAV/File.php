@@ -7,6 +7,8 @@ use Sabre\DAV;
 class File extends DAV\File
 {
 
+    use Node;
+
     private $path;
 
     function __construct($path)

@@ -7,6 +7,8 @@ use Sabre\DAV;
 class Collection extends DAV\Collection
 {
 
+    use Node;
+
     private $path;
 
     function __construct($path)
