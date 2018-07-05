@@ -46,6 +46,9 @@ class WebDavController extends Controller
         $authPlugin = new DAV\Auth\Plugin($authBackend);
         $server->addPlugin($authPlugin);
 
+        // mimeType插件
+        $server->addPlugin(new DAV\Browser\GuessContentType());
+
         $server->exec();
     }
 
