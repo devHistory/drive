@@ -52,7 +52,7 @@ class FilesController extends Controller
             if (!is_dir($cacheDir)) {
                 mkdir($cacheDir, 755, true);
             }
-            $image->save($cachePath, 90);
+            $image->save($cachePath, 100);
         }
 
 

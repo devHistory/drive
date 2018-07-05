@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Sabre\DAV;
-use Sabre\DAV\Auth;
+use App;
 use PDO;
 
 class WebDavController extends Controller
@@ -26,12 +26,13 @@ class WebDavController extends Controller
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // 基本设置
-        $dataHome = env('DATA_HOME', storage_path('app/data'));
-        $rootDirectory = new DAV\FS\Directory($dataHome);
+        // $rootDirectory = new DAV\FS\Directory($dataHome);
+        $dataHome = env('DATA_HOME', storage_path('app/data/' . $this->uid . '/files'));
+        $rootDirectory = new App\Lib\DAV\Collection($dataHome);
         $server = new DAV\Server($rootDirectory);
         $server->setBaseUri('/webdav');
 
-        // 文件锁
+        // 文件锁插件
         $lockBackend = new DAV\Locks\Backend\File('/tmp/locks');
         $lockPlugin = new DAV\Locks\Plugin($lockBackend);
         $server->addPlugin($lockPlugin);
@@ -40,9 +41,9 @@ class WebDavController extends Controller
         $server->addPlugin(new DAV\Browser\Plugin());
 
         // 认证插件
-        $authBackend = new Auth\Backend\PDO($pdo);
+        $authBackend = new DAV\Auth\Backend\PDO($pdo);
         $authBackend->setRealm($realm);
-        $authPlugin = new Auth\Plugin($authBackend);
+        $authPlugin = new DAV\Auth\Plugin($authBackend);
         $server->addPlugin($authPlugin);
 
         $server->exec();
